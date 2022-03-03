@@ -1,0 +1,60 @@
+INSTALLATION
+----------------------------------------------
+FIRST WE IMPORT THE SEQUELIZE
+
+$ npm install --save sequelize
+
+# And one of the following:
+$ npm install --save pg pg-hstore
+$ npm install --save mysql // For both mysql and mariadb dialects
+$ npm install --save sqlite3
+$ npm install --save tedious // MSSQL
+================================================================================================
+
+Setting up a connection
+------------------------------------------------
+
+var sequelize = new Sequelize('database', 'username', 'password', {
+  host: 'localhost',
+  dialect: 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql',  //< WE CHOOSE ONLY ONE DB>
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+
+  // SQLite only
+  storage: 'path/to/database.sqlite'
+});
+
+===================================================================================================
+
+Our first model
+-----------------------------------------------
+
+sequelize.define('name', {attributes}, {options}) //WE DEFINE MODELS
+
+In a define method first argument is the table name, second is objects in object put inside the fields and there attributes.
+
+var User = sequelize.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
+  },
+  lastName: {
+    type: Sequelize.STRING
+  }
+}, {
+  freezeTableName: true // Model tableName will be the same as the model name
+});
+
+User.sync({force: true}).then(function () {
+  // Table created
+  return User.create({
+    firstName: 'John',
+    lastName: 'Hancock'
+  });
+});
+
+=========================================================================================================
