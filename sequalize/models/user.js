@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../database');
 
-const user = sequelize.define('user', {
+const user = sequelize.define('test', {
     firstName: {
         type: Sequelize.STRING
     },
@@ -13,6 +13,9 @@ const user = sequelize.define('user', {
         type: Sequelize.STRING
     },
     password: {
+        type: Sequelize.STRING
+    },
+    image: {
         type: Sequelize.STRING
     }
 });

@@ -7,6 +7,4 @@ const sequelize = new Sequelize('demo', 'root', '', {
     }
 });
 
-sequelize.sync();
 module.exports = sequelize;
-
