@@ -3,6 +3,7 @@ const user = require('./models/user');
 const multer = require('multer');
 const app = express();
 const users = require('./models/user');
+const path = require('path');
 
 
 const fileStorage = multer.diskStorage({
@@ -28,6 +29,8 @@ app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 
 //encoded and static path
 app.use(express.urlencoded({ extended: false }));
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 app.get('/', (req, res, next) => {
@@ -42,8 +45,10 @@ app.get('/', (req, res, next) => {
 
 app.post('/', (req, res, next) => {
     const body = req.body;
+    const file = req.file.path;
     console.log(body);
-    users.create(body).then(result => {
+    console.log(file);
+    users.create(body, file).then(result => {
         console.log(result);
         res.json({
             message: 'userCreated',
